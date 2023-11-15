@@ -69,6 +69,13 @@ public class ejercicio5INTegrador {
 	 * agregarJugador().
 	 */
 
+	static String ruta = "C:\\Users\\leand\\documents\\mi_archivo.txt";
+
+	static File file = new File(ruta);
+	static FileWriter fw;
+
+	static BufferedWriter bw;
+
 	static String[] nombre = new String[4];
 	static String[] apellido = new String[4];
 	static int[] NumCami = new int[4];
@@ -86,54 +93,82 @@ public class ejercicio5INTegrador {
 
 		decis = false;
 		analizarDatosTresJugadores();
-		
-		 try {
+		try {
+			fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
+			try {
 
-	         String ruta = "C:\\Users\\leand\\documents\\mi_archivo.txt";
+				if (!file.exists()) {
+					System.out.println("archivo no encontrado para los suplentes");
+				}
+
+				for (int i = 0; i < 3; i++) {
+					// Escribir en el archivo una linea que contiene el nombre y el apellido
+					bw.write("Nombre: " + nombre[i] + ", Apellido: " + apellido[i] + ", camiseta: "
+							+ NumCami[i]);
+					bw.newLine();
+				}
+
+				
+
+				System.out.println("Archivo creado con exito.");
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+			try {
+
+				FileReader archivo = new FileReader("C:\\Users\\leand\\documents\\mi_archivo.txt");
+				BufferedReader lector = new BufferedReader(archivo);
+
+				String linea;
+
+				while ((linea = lector.readLine()) != null) {
+
+					System.out.println(linea);
+				}
+
+				lector.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (desicionPlayer.equals("yes")) {
+				try {
+
+					for (int i = 0; i < 3; i++) {
+						// Escribir en el archivo una linea que contiene el nombre y el apellido
+						bw.write("Nombre del suplente: " + nombreSuple[i] + ", Apellido del suplente: " + apellidoSuple[i]
+								+ ", camiseta del suplente: " + NumCamiSuple[i]);
+						bw.newLine();
+					}
 
 
-	         File file = new File(ruta);
+					System.out.println("Archivo creado con exito.");
+				} catch (Exception e) {
 
-	         if (!file.exists()) {
-	             file.createNewFile();
-	         }
+					e.printStackTrace();
+				}
+				try {
 
-	         FileWriter fw = new FileWriter(file);
+					FileReader archivo = new FileReader("C:\\Users\\leand\\documents\\mi_archivo.txt");
+					BufferedReader lector = new BufferedReader(archivo);
 
-	         BufferedWriter bw = new BufferedWriter(fw);
+					String linea;
 
+					while ((linea = lector.readLine()) != null) {
 
-	         for (int i = 0; i < 3; i++) {
-	             // Escribir en el archivo una linea que contiene el nombre y el apellido
-	             bw.write("Nombre: " + nombre[i] + ", Apellido: " + apellido[i]+", camiseta: "+NumCami[i]);
-	             bw.newLine();
-	         }
+						System.out.println(linea);
+					}
 
-	         bw.close();
-
-	         System.out.println("Archivo creado con exito.");
-	     } catch (Exception e) {
-
-	         e.printStackTrace();
-	     }
-		 try {
-
-	         FileReader archivo = new FileReader("C:\\Users\\leand\\documents\\mi_archivo.txt");
-	         BufferedReader lector = new BufferedReader(archivo);
-
-	         String linea;
-
-
-	         while ((linea = lector.readLine()) != null) {
-
-	             System.out.println(linea);
-	         }
-
-	         lector.close();
-	     } catch (IOException e) {
-	         e.printStackTrace();
-	     }
-
+					lector.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void analizarDatosTresJugadores() {
@@ -201,9 +236,7 @@ public class ejercicio5INTegrador {
 
 							System.out.println("¿cual es el numero por el cual va a modificar el anterior?");
 							NumCami[i] = entrada.nextInt();
-							
-							
-							
+
 						}
 					}
 					break;
@@ -227,11 +260,11 @@ public class ejercicio5INTegrador {
 			nomPlayer();
 			ApePlayer();
 			NumCamiseta();
-			
 
 		}
 
 		for (int i = 0; i <= 2; i++) {
+			numVuelta = i;
 			decis = false;
 			while (!decis) {
 				System.out.println("¿desea agregar un suplente al jugador " + (i + 1) + "? yes/no");
@@ -239,6 +272,7 @@ public class ejercicio5INTegrador {
 
 				if (desicionPlayer.equals("yes")) {
 					decis = true;
+					AddPlayer();
 				}
 				if (desicionPlayer.equals("no")) {
 					decis = true;
@@ -247,7 +281,7 @@ public class ejercicio5INTegrador {
 					System.out.println("no es una opcion correcta. recuerde responder con \"yes\" o \"no\"");
 				}
 			}
-			numVuelta = i;
+
 		}
 	}
 
